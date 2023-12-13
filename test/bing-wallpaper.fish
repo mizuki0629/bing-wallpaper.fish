@@ -40,5 +40,28 @@ cd $temp
 @test "resolution 1000" (bing-wallpaper --resolution 1000 -o resolution-1000.jpg 2>&1) = "Error: resolution must be 1920, 1366 or 3840."
 @test "resolution abcd" (bing-wallpaper --resolution abcd -o resolution-abcd.jpg 2>&1) = "Error: resolution must be 1920, 1366 or 3840."
 
+@echo "Test bing-wallpaper --help"
+set help_str "\
+Usage: bing-wallpaper [options]
+Download bing wallpaper.
+
+Options:
+      --index       Index, default is 0.
+                    Available options are 0 <= index <= 7(days ago).
+                    0 means today, 1 means yesterday, 2 means the day before yesterday,
+                    and so on.
+      --resolution  Resolution, default is 1920.
+                    Available options are 1920, 1366 and 3840.
+      --mkt         Bing Market, default is en-US. Available options are zh-CN, en-US, ja-JP,
+                    en-AU, en-GB, de-DE, en-NZ and en-CA.
+  -o, --output      Output filename
+  -h, --help        Show this message.\
+"
+@test "help" (bing-wallpaper --help | string collect) = $help_str
+@test "h" (bing-wallpaper -h | string collect) = $help_str
+
+@echo "Test bing-wallpaper --undefiend_arg"
+@test "undefiend_arg" (bing-wallpaper --undefiend_arg 2>&1 | string collect) = "bing-wallpaper: --undefiend_arg: unknown option"
+@test "u" (bing-wallpaper -u 2>&1 | string collect) = "bing-wallpaper: -u: unknown option"
 
 rm -rf $temp

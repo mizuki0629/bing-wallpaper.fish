@@ -1,15 +1,16 @@
 function bing-wallpaper
-    argparse --name="bing-wallpaper-download" \
+    argparse \
         index= \
         resolution= \
         mkt= \
         o/output= \
         h/help \
         -- $argv
+    or return 1
 
     if set -ql _flag_help
         echo "\
-Usage: bing-wallpaper-download
+Usage: bing-wallpaper [options]
 Download bing wallpaper.
 
 Options:
@@ -55,11 +56,6 @@ Options:
         set _flag_resolution "1920"
     end
 
-    if not set -ql _flag_output
-        set _flag_output "bing-wallpaper.jpg"
-    end
-
-    set -l restapi "https://bing.biturl.top/?format=image&resolution=$_flag_resolution&mkt=$_flag_mkt"
     if set -ql _flag_index
         if not test $_flag_index -ge 0 -a $_flag_index -le 7 2> /dev/null
             echo "Error: index must be between 0 and 7." >&2
@@ -68,5 +64,11 @@ Options:
     else
         set _flag_index 0
     end
+
+    if not set -ql _flag_output
+        set _flag_output "bing-wallpaper.jpg"
+    end
+
+    set -l restapi "https://bing.biturl.top/?format=image&resolution=$_flag_resolution&mkt=$_flag_mkt"
     curl -L "$restapi&index=$_flag_index" -o "$_flag_output"
 end
