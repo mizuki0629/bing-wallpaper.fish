@@ -1,6 +1,9 @@
 # bing-wallpaper.fish
 fish plugin to fetch daily wallpaper from bing.com 
+
 using [TimothyYe/bing-wallpaper](https://github.com/TimothyYe/bing-wallpaper)
+
+![Test](https://github.com/mizuki0629/bing-wallpaper.fish/actions/workflows/test.yml/badge.svg)
 
 ## Install
 ```fish
